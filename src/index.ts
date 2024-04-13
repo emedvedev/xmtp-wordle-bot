@@ -13,7 +13,7 @@ run(async (context: HandlerContext) => {
   if (!isKnownSender && messageBody) {
     await context.reply(`Hi there! I'm a daily Wordle bot, and I will now be sending you a Wordle puzzle every day!`);
     await new Promise(resolve => setTimeout(resolve, 200));
-    await context.reply(`You can play it right in your chat window, but make sure you have an XMTP client that supports Frames, like Family (https://family.co/) or Converse (https://getconverse.app/)`);
+    await context.reply(`It works through OpenFrames, and you can play it right in your chat window, but make sure you have an XMTP client that supports Frames, like Converse (https://getconverse.app/)`);
     await new Promise(resolve => setTimeout(resolve, 200));
     await context.reply(`The Wordle frame is OpenFramedl made by ds8`);
     await new Promise(resolve => setTimeout(resolve, 200));
