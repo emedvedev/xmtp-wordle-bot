@@ -14,7 +14,7 @@ export default async function run(handler: Handler) {
       console.log("Connection lost");
     }
   )) {
-    if (process.env.DEBUG === "true") console.log(`Got a message from ${message.senderAddress}: ${message.content}`);
+    if (process.env.DEBUG === "true" && message.senderAddress != client.address) console.log(`Got a message from ${message.senderAddress}: ${message.content}`);
 
     try {
       if (message.senderAddress == client.address) {
