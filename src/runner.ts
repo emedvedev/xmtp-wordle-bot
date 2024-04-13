@@ -1,19 +1,20 @@
 import createClient from "./client.js";
 import HandlerContext from "./handler-context.js";
+import scheduleMessages from "./schedule-messages.js";
 
 type Handler = (message: HandlerContext) => Promise<void>;
 
 export default async function run(handler: Handler) {
   const client = await createClient();
-
   console.log(`Listening on ${client.address}`);
+  scheduleMessages(client);
 
   for await (const message of await client.conversations.streamAllMessages(
     () => {
       console.log("Connection lost");
     }
   )) {
-    if (process.env.DEBUG === "true") console.log(`Got a message`, message);
+    if (process.env.DEBUG === "true") console.log(`Got a message from ${message.senderAddress}: ${message}`);
 
     try {
       if (message.senderAddress == client.address) {
