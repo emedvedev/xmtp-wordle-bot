@@ -3,7 +3,7 @@ import HandlerContext from "./handler-context.js";
 import run from "./runner.js";
 import storage from 'node-persist';
 
-storage.init();
+storage.init({ dir: '/var/wordlebot' });
 
 run(async (context: HandlerContext) => {
   const messageBody = context.message.content;
