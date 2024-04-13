@@ -15,7 +15,7 @@ run(async (context: HandlerContext) => {
     await new Promise(resolve => setTimeout(resolve, 200));
     await context.reply(`It works through OpenFrames, and you can play it right in your chat window, but make sure you have an XMTP client that supports Frames, like Converse (https://getconverse.app/)`);
     await new Promise(resolve => setTimeout(resolve, 200));
-    await context.reply(`The Wordle frame is OpenFramedl made by dusan.eth`);
+    await context.reply(`The Wordle frame is OpenFramedl made by dusan.eth and the bot is made by ohai.eth. Say hello!`);
     await new Promise(resolve => setTimeout(resolve, 200));
     await context.reply(`To unsubscribe from my daily Wordles, send STOP`);
     await new Promise(resolve => setTimeout(resolve, 2000));
