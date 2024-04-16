@@ -8,7 +8,7 @@ storage.init({ dir: '/var/wordlebot/persist' });
 run(async (context: HandlerContext) => {
   const messageBody = context.message.content;
   const sender = context.message.senderAddress;
-  const isKnownSender = (await storage.getItem(sender)) === 1;
+  const isKnownSender = (await storage.getItem(sender));
 
   if (!isKnownSender && messageBody) {
     await context.reply(`Hi there! I'm a daily Wordle bot, and I will now be sending you a Wordle puzzle every day!`);
