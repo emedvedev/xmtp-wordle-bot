@@ -29,19 +29,19 @@ export default async function scheduleResults(client: any) {
                         conversation.send(`Thank you for playing! Share the result with friends:`);
                         await new Promise(resolve => setTimeout(resolve, 200));
                         //          render the results
-                        conversation.send(`Framedl ${date} ${results['guesses'].length}/6
+                        conversation.send(`Framedl ${date} ${results['guesses'].length / 5}/6
 
-${results['guesses'].map((attempt: any) => {
-                            attempt.map((char: any) => {
-                                if (char['status'] == "WRONG_POSITION") {
-                                    return "🟨"
-                                } else if (char['status'] == "CORRECT") {
-                                    return "🟩"
-                                } else {
-                                    return "⬜"
-                                }
-                            }).join('');
-                        }).join('/n')}
+${results['guesses'].map((guess: any) => {
+
+                            if (guess['status'] == "WRONG_POSITION") {
+                                return "🟨"
+                            } else if (guess['status'] == "CORRECT") {
+                                return "🟩"
+                            } else {
+                                return "⬜"
+                            }
+
+                        }).join().split(/.{5}/g).filter(Boolean).join("\n")}
 
 https://openframedl.vercel.app/?id=${results['id']}`);
                         console.log(`Solved by ${conversation.peerAddress}`);
