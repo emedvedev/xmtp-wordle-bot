@@ -37,13 +37,9 @@ export default async function scheduleResults(client: any) {
                                 }
                             }).join('');
                         }).join("\n");
-                        console.log(resultString);
                         conversation.send(`Thank you for playing! Share the result with friends:`);
                         await new Promise(resolve => setTimeout(resolve, 200));
-                        conversation.send(`Framedl ${date} ${results['guesses'].length}/6
-                    }
-
-https://openframedl.vercel.app/?id=${results['id']}`);
+                        conversation.send(`Framedl ${date} ${results['guesses'].length}/6\n\n${resultString}\n\nhttps://openframedl.vercel.app/?id=${results['id']}`);
                         console.log(`Solved by ${conversation.peerAddress}`);
                         // await storage.setItem(conversation.peerAddress, 2);
                     })
