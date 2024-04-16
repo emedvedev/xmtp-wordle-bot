@@ -21,27 +21,29 @@ export default async function scheduleResults(client: any) {
         for await (const conversation of conversations) {
             const clientSubscribed = await storage.getItem(conversation.peerAddress);
 
-            if (clientSubscribed === 1 && conversation.peerAddress == '0xc561D7B2386A170451f04592158F18daD6d76eEf') {
+            if (clientSubscribed === 1) {
 
                 fetch(`https://openframedl.vercel.app/api/games/status?uid=${conversation.peerAddress}&ip=xmtp&date=${date}`)
                     .then(async (response) => {
                         const results = await response.json();
-                        let resultString = results['guesses'].map((guess: any) => {
-                            return guess['characters'].map((char: any) => {
-                                if (char['status'] == "WRONG_POSITION") {
-                                    return "🟨"
-                                } else if (char['status'] == "CORRECT") {
-                                    return "🟩"
-                                } else {
-                                    return "⬜"
-                                }
-                            }).join('');
-                        }).join("\n");
-                        conversation.send(`Thank you for playing! Share the result with friends:`);
-                        await new Promise(resolve => setTimeout(resolve, 200));
-                        conversation.send(`Framedl | dailywordle.eth @ XMTP\n${date} ${results['guesses'].length}/6\n\n${resultString}\n\nhttps://openframedl.vercel.app/?id=${results['id']}`);
-                        console.log(`Solved by ${conversation.peerAddress}`);
-                        await storage.setItem(conversation.peerAddress, 2);
+                        if ("id" in results) {
+                            let resultString = results['guesses'].map((guess: any) => {
+                                return guess['characters'].map((char: any) => {
+                                    if (char['status'] == "WRONG_POSITION") {
+                                        return "🟨"
+                                    } else if (char['status'] == "CORRECT") {
+                                        return "🟩"
+                                    } else {
+                                        return "⬜"
+                                    }
+                                }).join('');
+                            }).join("\n");
+                            conversation.send(`Thank you for playing! Share the result with friends:`);
+                            await new Promise(resolve => setTimeout(resolve, 200));
+                            conversation.send(`dailywordle.eth @ XMTP\n${date} ${results['guesses'].length}/6\n\n${resultString}\n\nhttps://openframedl.vercel.app/?id=${results['id']}`);
+                            console.log(`Solved by ${conversation.peerAddress}`);
+                            await storage.setItem(conversation.peerAddress, 2);
+                        }
                     })
 
             }
