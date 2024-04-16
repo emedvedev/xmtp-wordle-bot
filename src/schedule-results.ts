@@ -39,9 +39,9 @@ export default async function scheduleResults(client: any) {
                         }).join("\n");
                         conversation.send(`Thank you for playing! Share the result with friends:`);
                         await new Promise(resolve => setTimeout(resolve, 200));
-                        conversation.send(`Framedl ${date} ${results['guesses'].length}/6\n\n${resultString}\n\nhttps://openframedl.vercel.app/?id=${results['id']}`);
+                        conversation.send(`Framedl | dailywordle.eth @ XMTP\n${date} ${results['guesses'].length}/6\n\n${resultString}\n\nhttps://openframedl.vercel.app/?id=${results['id']}`);
                         console.log(`Solved by ${conversation.peerAddress}`);
-                        // await storage.setItem(conversation.peerAddress, 2);
+                        await storage.setItem(conversation.peerAddress, 2);
                     })
 
             }
