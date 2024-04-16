@@ -28,9 +28,9 @@ export default async function scheduleResults(client: any) {
                         const results = await response.json();
                         let resultString = results['guesses'].map((guess: any) => {
                             return guess['characters'].map((char: any) => {
-                                if (char == "WRONG_POSITION") {
+                                if (char['status'] == "WRONG_POSITION") {
                                     return "🟨"
-                                } else if (char == "CORRECT") {
+                                } else if (char['status'] == "CORRECT") {
                                     return "🟩"
                                 } else {
                                     return "⬜"
