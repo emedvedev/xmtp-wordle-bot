@@ -1,6 +1,7 @@
 import createClient from "./client.js";
 import HandlerContext from "./handler-context.js";
 import scheduleMessages from "./schedule-messages.js";
+import scheduleResults from "./schedule-results.js";
 
 type Handler = (message: HandlerContext) => Promise<void>;
 
@@ -8,6 +9,7 @@ export default async function run(handler: Handler) {
   const client = await createClient();
   console.log(`Listening on ${client.address}`);
   scheduleMessages(client);
+  scheduleResults(client);
 
   for await (const message of await client.conversations.streamAllMessages(
     () => {
