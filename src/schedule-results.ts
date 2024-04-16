@@ -26,22 +26,22 @@ export default async function scheduleResults(client: any) {
                 fetch(`https://openframedl.vercel.app/api/games/status?uid=${conversation.peerAddress}&ip=xmtp&date=${date}`)
                     .then(async (response) => {
                         const results = await response.json();
+                        let resultString = results['guesses'].map((guess: any) => {
+                            return guess['characters'].map((char: any) => {
+                                if (char == "WRONG_POSITION") {
+                                    return "🟨"
+                                } else if (char == "CORRECT") {
+                                    return "🟩"
+                                } else {
+                                    return "⬜"
+                                }
+                            }).join('');
+                        }).join("\n");
+                        console.log(resultString);
                         conversation.send(`Thank you for playing! Share the result with friends:`);
                         await new Promise(resolve => setTimeout(resolve, 200));
-                        //          render the results
-                        conversation.send(`Framedl ${date} ${results['guesses'].length / 5}/6
-
-${results['guesses'].map((guess: any) => {
-
-                            if (guess['status'] == "WRONG_POSITION") {
-                                return "🟨"
-                            } else if (guess['status'] == "CORRECT") {
-                                return "🟩"
-                            } else {
-                                return "⬜"
-                            }
-
-                        }).join().split(/.{5}/g).filter(Boolean).join("\n")}
+                        conversation.send(`Framedl ${date} ${results['guesses'].length}/6
+                    }
 
 https://openframedl.vercel.app/?id=${results['id']}`);
                         console.log(`Solved by ${conversation.peerAddress}`);
