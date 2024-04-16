@@ -7,7 +7,7 @@ export default async function scheduleResults(client: any) {
         // Reset all solved states (2) to subscribed states (1)
         storage.forEach(async function (el) {
             if (el.value === 2) {
-                storage.setItem(el.value, 1);
+                storage.setItem(el.key, 1);
             }
         })
     })
