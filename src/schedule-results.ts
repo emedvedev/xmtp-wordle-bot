@@ -5,6 +5,7 @@ export default async function scheduleResults(client: any) {
 
     cron.schedule('0 0 * * *', async () => {
         // Reset all solved states (2) to subscribed states (1)
+        console.log('Resetting solved states')
         storage.forEach(async function (el) {
             if (el.value === 2) {
                 storage.setItem(el.key, 1);
@@ -26,7 +27,7 @@ export default async function scheduleResults(client: any) {
                 fetch(`https://openframedl.vercel.app/api/games/status?uid=${conversation.peerAddress}&ip=xmtp&date=${date}`)
                     .then(async (response) => {
                         const results = await response.json();
-                        if ("id" in results) {
+                        if ("completedAt" in results) {
                             let resultString = results['guesses'].map((guess: any) => {
                                 return guess['characters'].map((char: any) => {
                                     if (char['status'] == "WRONG_POSITION") {
