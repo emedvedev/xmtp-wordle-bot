@@ -5,12 +5,14 @@ export default async function scheduleResults(client: any) {
 
     cron.schedule('0 0 * * *', async () => {
         // Reset all solved states (2) to subscribed states (1)
-        console.log('Resetting solved states')
+        console.log('Printing daily usage and resetting solved states')
         storage.forEach(async function (el) {
+            console.log(`${el.key}: ${el.value}`)
             if (el.value === 2) {
                 storage.setItem(el.key, 1);
             }
         })
+        console.log('Reset solved states')
     })
 
     cron.schedule('* * * * *', async () => {
