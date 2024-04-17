@@ -24,7 +24,10 @@ export default async function scheduleResults(client: any) {
 
             if (clientSubscribed === 1) {
 
-                fetch(`https://openframedl.vercel.app/api/games/status?uid=${conversation.peerAddress}&ip=xmtp&date=${date}`)
+                fetch(
+                    `https://openframedl.vercel.app/api/games/status?uid=${conversation.peerAddress}&ip=xmtp&date=${date}`,
+                    { headers: { "x-framedl-api-key": `${process.env.API_KEY}` } }
+                )
                     .then(async (response) => {
                         const results = await response.json();
                         if ("completedAt" in results) {
