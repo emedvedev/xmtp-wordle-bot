@@ -16,7 +16,7 @@ export default async function scheduleResults(client: any) {
     })
 
     cron.schedule('* * * * *', async () => {
-        if (process.env.DEBUG === "true") console.log(`Polling for results`)
+        // if (process.env.DEBUG === "true") console.log(`Polling for results`)
 
         const date = new Date((new Date).getTime() - ((new Date).getTimezoneOffset() * 60 * 1000)).toISOString().split('T')[0]
 
