@@ -23,7 +23,7 @@ run(async (context: HandlerContext) => {
     await new Promise(resolve => setTimeout(resolve, 200));
     await context.reply(`https://openframedl.vercel.app/`);
     storage.setItem(sender, 1);
-  } else if (messageBody.toLowerCase() === 'stop') {
+  } else if (messageBody && messageBody.toLowerCase() === 'stop') {
     await context.reply(`No problem! I will now stop sending you the daily Wordles. To subscribe again, just send me a message with any text.`);
     storage.setItem(sender, 0);
   }
