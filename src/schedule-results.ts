@@ -32,7 +32,7 @@ export default async function scheduleResults(client: any) {
                 )
                     .then(async (response) => {
                         const results = await response.json();
-                        if ("completedAt" in results) {
+                        if ("completedAt" in results && results["completedAt"]) {
                             let resultString = results['guesses'].map((guess: any) => {
                                 return guess['characters'].map((char: any) => {
                                     if (char['status'] == "WRONG_POSITION") {
