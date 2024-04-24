@@ -31,29 +31,35 @@ export default async function scheduleResults(client: any) {
                     { headers: { "x-framedl-api-key": `${process.env.API_KEY}` } }
                 )
                     .then(async (response) => {
-                        const results = await response.json();
-                        if ("completedAt" in results && results["completedAt"]) {
-                            let resultString = results['guesses'].map((guess: any) => {
-                                return guess['characters'].map((char: any) => {
-                                    if (char['status'] == "WRONG_POSITION") {
-                                        return "🟨"
-                                    } else if (char['status'] == "CORRECT") {
-                                        return "🟩"
-                                    } else {
-                                        return "⬜"
-                                    }
-                                }).join('');
-                            }).join("\n");
-                            conversation.send(`Thank you for playing! Share the result with friends:`);
-                            await new Promise(resolve => setTimeout(resolve, 200));
-                            conversation.send(`dailywordle.eth @ XMTP\n${date} ${results['guesses'].length}/6\n\n${resultString}\n\nhttps://openframedl.vercel.app/?id=${results['id']}`);
-                            console.log(`Solved by ${conversation.peerAddress}`);
-                            await storage.setItem(conversation.peerAddress, 2);
+                        try {
+                            const results = await response.json();
+                            if ("completedAt" in results && results["completedAt"]) {
+                                let resultString = results['guesses'].map((guess: any) => {
+                                    return guess['characters'].map((char: any) => {
+                                        if (char['status'] == "WRONG_POSITION") {
+                                            return "🟨"
+                                        } else if (char['status'] == "CORRECT") {
+                                            return "🟩"
+                                        } else {
+                                            return "⬜"
+                                        }
+                                    }).join('');
+                                }).join("\n");
+                                conversation.send(`Thank you for playing! Share the result with friends:`);
+                                await new Promise(resolve => setTimeout(resolve, 200));
+                                conversation.send(`dailywordle.eth @ XMTP\n${date} ${results['guesses'].length}/6\n\n${resultString}\n\nhttps://openframedl.vercel.app/?id=${results['id']}`);
+                                console.log(`Solved by ${conversation.peerAddress}`);
+                                await storage.setItem(conversation.peerAddress, 2);
+                            }
+                        } catch (error) {
+                            console.log('Could not parse the response and send results')
+                            console.log(error)
                         }
+
                     })
 
             }
-            else if (process.env.DEBUG === "true" && clientSubscribed === 0) console.log(`Skipping ${conversation.peerAddress}: unsubscribed`);
+            // else if (process.env.DEBUG === "true" && clientSubscribed === 0) console.log(`Skipping ${conversation.peerAddress}: unsubscribed`);
         }
     });
 
