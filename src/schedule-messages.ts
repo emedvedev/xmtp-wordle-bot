@@ -15,7 +15,7 @@ export default async function scheduleMessages(client: any) {
                 counter++;
                 conversation.send(`A new daily Wordle is out! Play it now:`);
                 await new Promise(resolve => setTimeout(resolve, 200));
-                conversation.send(`https://openframedl.vercel.app`);
+                conversation.send(`https://framedl.xyz`);
             }
             else if (process.env.DEBUG === "true" && clientSubscribed === 0) console.log(`Skipping ${conversation.peerAddress}: unsubscribed`);
         }
